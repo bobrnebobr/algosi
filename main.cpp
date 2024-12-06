@@ -1,17 +1,40 @@
 #include <vector>
 #include <iostream>
-#include "lab.cpp"
+#include <chrono>
+#include <cstdlib>
+#include <ctime>
+#include <random>
 
-typedef long long ll;
+#include "sortings/patienceSort.cpp"
 
 using namespace std;
+using namespace chrono;
+
+int MOD=1e7;
 
 int main() {
-    vector<ll> digits = {0, -45, 72, 13, 65, 23, -99, 0, 0, 1, 2, 5};
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dis(0, MOD);
 
-    pair<ll, ll> result = getMaxComposition(digits);
+    vector<int> array(1000000);
 
-    cout << result.first << " " << result.second << endl;
+    for (int i=0; i<1000000; i++)
+        array[i] = dis(gen);
+
+    for (int n=1000; n<=1e6; n+=1000) {
+        auto start = high_resolution_clock::now();
+
+        vector<int> arr(array.begin(), array.begin() + n);
+
+        patienceSort(arr);
+
+        auto end = high_resolution_clock::now();
+
+        auto duration = duration_cast<milliseconds>(end- start);
+
+        cout << n << " " << duration.count() << " milliseconds" << endl;
+    }
 
     return 0;
 }

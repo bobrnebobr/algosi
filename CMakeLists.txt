@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.21)
 project(polygon)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 20)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -12,14 +12,14 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-add_executable(label_encoder_test tests/ests.cpp)
+add_executable(tests tests.cpp)
 
 add_executable(polygon main.cpp)
 
 target_link_libraries(
-        label_encoder_test
+        tests
         GTest::gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(label_encoder_test)
+gtest_discover_tests(tests)
