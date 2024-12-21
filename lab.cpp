@@ -1,44 +1,46 @@
 #include <vector>
 #include <iostream>
+#include <map>
+#include <string>
 
 typedef long long ll;
 
-ll INF = 1000000007;
-
 using namespace std;
 
-pair <ll, ll> getMaxComposition(vector<ll> digits) {
-    auto size = digits.size();
+string ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
-    ll max_1 = -INF, max_2 = -INF, min_1 = INF, min_2 = INF;
+class Solution {
+public:
+    int maxScoreWords(vector<string> &words, vector<char> &letters, vector<int> &score) {
+        vector<int> letters_counts(score.size(), 0);
+        map<string,int> words_score;
+        int max_sum = 0;
 
-    // отработатываем вариант, когда размер входного массива меньше 2, выбрасываем нули
-    if (size < 2) {
-        return {0, 0};
-    }
-
-    // ищем два минимальных элемента и два максимальных элемента
-    for (int i=0; i<size; i++) {
-        if (digits[i] >= max_1) {
-            max_2 = max_1;
-            max_1 = digits[i];
-        } else if (digits[i] >= max_2) {
-            max_2 = digits[i];
+        for (auto i: letters) {
+            letters_counts[i - 'a']++;
         }
 
-        if (digits[i] <= min_1) {
-            min_2 = min_1;
-            min_1 = digits[i];
-        } else if (digits[i] <= min_2) {
-            min_2 = digits[i];
-        }
-    }
+        for (auto word: words) {
+            int tmp_sum = 0;
+            bool is_possible=true;
+            map<int, int> word_letters_count;
 
-    // произведение двух отрицательных наименьших чисел может быть больше произведения
-    // двух наибольших чисел => надо отработать этот вариант
-    if (max_1 * max_2 > min_1 * min_2) {
-        return {max_1, max_2};
-    } else {
-        return {min_1, min_2};
+            for (auto letter: word) {
+                if (word_letters_count[letter - 'a'] + 1 > letters_counts[letter - 'a']) {
+                    is_possible=false;
+                    break;
+                } else {
+                    word_letters_count[letter - 'a']++;
+                    tmp_sum += score[letter - 'a'];
+                }
+            }
+
+            if (is_possible)
+                words_score[word] = tmp_sum;
+            else
+                words_score[word] = 0;
+        }
+
+        return max_sum;
     }
-}
+};

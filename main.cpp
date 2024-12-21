@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include <string>
 #include "lab.cpp"
 
 typedef long long ll;
@@ -7,11 +8,10 @@ typedef long long ll;
 using namespace std;
 
 int main() {
-    vector<ll> digits = {0, -45, 72, 13, 65, 23, -99, 0, 0, 1, 2, 5};
+    vector<string> data = {"dog", "cat", "dad", "good"};
+    vector<char> letters = {'a', 'a', 'c', 'd', 'd', 'd', 'g', 'o', 'o'};
+    vector<int> scores = {1,0,9,5,0,0,3,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0};
 
-    pair<ll, ll> result = getMaxComposition(digits);
-
-    cout << result.first << " " << result.second << endl;
-
-    return 0;
+    Solution solution;
+    cout << solution.maxScoreWords(data, letters, scores);
 }
