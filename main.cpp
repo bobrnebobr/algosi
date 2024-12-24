@@ -1,40 +1,52 @@
 #include <vector>
 #include <iostream>
+#include <fstream>
 #include <chrono>
-#include <cstdlib>
-#include <ctime>
 #include <random>
 
-#include "sortings/patienceSort.cpp"
+#include "sortings/tournamentSort.cpp"
+#include "sortings/cartesianTreeSort.cpp"
+#include "sortings/cycleSort.cpp"
 
-using namespace std;
-using namespace chrono;
 
-int MOD=1e7;
+bool is_sorted(vector<int> array) {
+    for (int i=1; i<array.size(); i++) {
+        if (array[i] < array[i - 1])
+            return false;
+    }
+    return true;
+}
+
+
+std::chrono::duration<double> get_sorting_time(vector<int>& array, vector<int> (*func)(vector<int>&)) {
+    auto start = std::chrono::high_resolution_clock::now();
+    func(array);
+    auto end = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration<double> duration = end - start;
+
+   return duration;
+}
 
 int main() {
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<> dis(0, MOD);
+    std::string filename = "../data/random_numbers.txt";
 
-    vector<int> array(1000000);
-
-    for (int i=0; i<1000000; i++)
-        array[i] = dis(gen);
-
-    for (int n=1000; n<=1e6; n+=1000) {
-        auto start = high_resolution_clock::now();
-
-        vector<int> arr(array.begin(), array.begin() + n);
-
-        patienceSort(arr);
-
-        auto end = high_resolution_clock::now();
-
-        auto duration = duration_cast<milliseconds>(end- start);
-
-        cout << n << " " << duration.count() << " milliseconds" << endl;
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        throw std::runtime_error("cannot open file");
     }
 
-    return 0;
+    std::vector<int> numbers;
+
+    int num;
+    int counter = 0;
+
+    while (file >> num) {
+        numbers.push_back(num);
+        counter++;
+
+        if (counter % 50000 == 0) {
+            std::cout << counter << " " << get_sorting_time(numbers, cycleSort) << std::endl;
+        }
+    }
 }

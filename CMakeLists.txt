@@ -12,9 +12,14 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-add_executable(tests tests.cpp)
+add_executable(tests
+        tests/cycleSortTests.cpp
+        tests/tournamentSortTests.cpp
+        tests/cartesianTreeSortTests.cpp)
 
 add_executable(polygon main.cpp)
+add_executable(tmp tmp.cpp)
+add_executable(boxplots for_boxplot.cpp)
 
 target_link_libraries(
         tests

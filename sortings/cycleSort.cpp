@@ -1,9 +1,11 @@
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
-template<typename T>
-void cycleSort(vector<T>& array) {
+template<typename T = int>
+vector<T> cycleSort(vector<T>& original_array) { // самая простая сортировка за O(N^2), пространственная O(1)
+    vector<int> array = original_array;
     for (auto cycle_start=0; cycle_start < array.size() - 1; cycle_start++) {
         auto item = array[cycle_start];
 
@@ -20,8 +22,9 @@ void cycleSort(vector<T>& array) {
         while (item == array[pos])
             pos++;
 
-        if (pos != cycle_start)
+        if (pos != cycle_start) {
             swap(item, array[pos]);
+        }
 
         while (pos != cycle_start) {
             pos = cycle_start;
@@ -33,8 +36,11 @@ void cycleSort(vector<T>& array) {
             while (item == array[pos])
                 pos++;
 
-            if (item != array[pos])
+            if (item != array[pos]) {
                 swap(item, array[pos]);
+            }
         }
     }
+
+    return array;
 }
