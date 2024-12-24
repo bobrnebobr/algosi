@@ -8,10 +8,8 @@ typedef long long ll;
 using namespace std;
 
 int main() {
-    vector<string> data = {"dog", "cat", "dad", "good"};
-    vector<char> letters = {'a', 'a', 'c', 'd', 'd', 'd', 'g', 'o', 'o'};
-    vector<int> scores = {1,0,9,5,0,0,3,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0};
+    vector<int> array = {0,1,2,3,4,8,9,11};
 
     Solution solution;
-    cout << solution.maxScoreWords(data, letters, scores);
+    cout << solution.canCross(array);
 }

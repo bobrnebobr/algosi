@@ -1,46 +1,29 @@
-#include <vector>
-#include <iostream>
 #include <map>
-#include <string>
+#include <unordered_set>
+#include <unordered_map>
 
-typedef long long ll;
-
-using namespace std;
-
-string ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
 class Solution {
 public:
-    int maxScoreWords(vector<string> &words, vector<char> &letters, vector<int> &score) {
-        vector<int> letters_counts(score.size(), 0);
-        map<string,int> words_score;
-        int max_sum = 0;
+    bool canCross(std::vector<int>& stones) {
+        std::unordered_map<int, std::unordered_set<int>> dp;
 
-        for (auto i: letters) {
-            letters_counts[i - 'a']++;
-        }
+        dp[1] = {1};
 
-        for (auto word: words) {
-            int tmp_sum = 0;
-            bool is_possible=true;
-            map<int, int> word_letters_count;
+        for (auto stone: stones) {
+            if (dp[stone].empty())
+                continue;
 
-            for (auto letter: word) {
-                if (word_letters_count[letter - 'a'] + 1 > letters_counts[letter - 'a']) {
-                    is_possible=false;
-                    break;
-                } else {
-                    word_letters_count[letter - 'a']++;
-                    tmp_sum += score[letter - 'a'];
-                }
+            for (auto k: dp[stone]) {
+                dp[stone + k - 1].insert(k - 1);
+                dp[stone + k].insert(k);
+                dp[stone + k + 1].insert(k + 1);
             }
-
-            if (is_possible)
-                words_score[word] = tmp_sum;
-            else
-                words_score[word] = 0;
         }
 
-        return max_sum;
+        if (dp[stones[stones.size() - 1]].empty())
+            return false;
+        else
+            return true;
     }
 };
