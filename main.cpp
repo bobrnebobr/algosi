@@ -7,11 +7,9 @@ typedef long long ll;
 using namespace std;
 
 int main() {
-    vector<ll> digits = {0, -45, 72, 13, 65, 23, -99, 0, 0, 1, 2, 5};
+    vector<int> nums = {3, 5, 1, 2};
+    vector<int> target = {4, 6, 2, 4};
+    auto solution = Solution();
 
-    pair<ll, ll> result = getMaxComposition(digits);
-
-    cout << result.first << " " << result.second << endl;
-
-    return 0;
+    cout << solution.minimumOperations(nums, target);
 }

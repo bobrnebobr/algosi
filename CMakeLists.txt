@@ -12,7 +12,7 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-add_executable(label_encoder_test tests/ests.cpp)
+add_executable(label_encoder_test tests.cpp)
 
 add_executable(polygon main.cpp)
 
