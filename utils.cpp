@@ -15,6 +15,7 @@ struct PairHash {
 };
 
 Graph parse_graph_from_file(const std::string& path_to_file) {
+    // O(L * S + E), где L кол-во строк в файле, S - длина строки, E - кол-во рёбер
     Graph graph;
     std::ifstream file(path_to_file);
     std::unordered_map<std::pair<double, double>, Node*, PairHash> ready_nodes;
